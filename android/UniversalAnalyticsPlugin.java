@@ -55,15 +55,25 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         } else if (TRACK_VIEW.equals(action)) {
             int length = args.length();
             String screen = args.getString(0);
-            this.trackView(screen, length > 1 && !args.isNull(1) ? args.getString(1) : "",
-                    length > 2 && !args.isNull(2) ? args.getBoolean(2) : false, callbackContext);
+            this.trackView(
+              screen,
+              length > 1 && !args.isNull(1) ? args.getString(1) : "",
+              length > 2 && !args.isNull(2) ? args.getBoolean(2) : false,
+              callbackContext
+            );
             return true;
         } else if (TRACK_EVENT.equals(action)) {
             int length = args.length();
             if (length > 0) {
-                this.trackEvent(args.getString(0), length > 1 ? args.getString(1) : "",
-                        length > 2 ? args.getString(2) : "", length > 3 ? args.getLong(3) : 0,
-                        length > 4 ? args.getBoolean(4) : false, callbackContext);
+              this.trackEvent(
+                args.getString(0),
+                length > 1 ? args.getString(1) : "",
+                length > 2 ? args.getString(2) : "",
+                length > 3 ? args.getLong(3) : 0,
+                length > 4 ? args.getString(4) : "",
+                length > 5 ? args.getBoolean(5) : false,
+                callbackContext
+              );
             }
             return true;
         } else if (TRACK_EXCEPTION.equals(action)) {
@@ -143,6 +153,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
     private void startTracker(String id, int dispatchPeriod, CallbackContext callbackContext) {
         if (null != id && id.length() > 0) {
             tracker = GoogleAnalytics.getInstance(this.cordova.getActivity()).newTracker(id);
+            tracker.enableAutoActivityTracking(true);
             callbackContext.success("tracker started");
             trackerStarted = true;
             GoogleAnalytics.getInstance(this.cordova.getActivity()).setLocalDispatchPeriod(dispatchPeriod);
@@ -160,7 +171,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         if (null == value || value.length() == 0) {
             // unset dimension
             customDimensions.remove(key);
-            callbackContext.success("custom dimension stopped");    
+            callbackContext.success("custom dimension stopped");
         } else {
             customDimensions.put(key, value);
             callbackContext.success("custom dimension started");
@@ -233,7 +244,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
     }
 
-    private void trackEvent(String category, String action, String label, long value, boolean newSession,
+    private void trackEvent(String category, String action, String label, long value, String campaignUrl, boolean newSession,
             CallbackContext callbackContext) {
         if (!trackerStarted) {
             callbackContext.error("Tracker not started");
@@ -243,6 +254,10 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         if (null != category && category.length() > 0) {
             HitBuilders.EventBuilder hitBuilder = new HitBuilders.EventBuilder();
             addCustomDimensionsAndMetricsToHitBuilder(hitBuilder);
+
+            if (!campaignUrl.equals("")) {
+                hitBuilder.setCampaignParamsFromUrl(campaignUrl);
+            }
 
             if (!newSession) {
                 tracker.send(
