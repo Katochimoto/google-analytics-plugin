@@ -86,14 +86,13 @@ UniversalAnalyticsProxy.prototype = {
     this._ga('set', 'metric' + key, value);
   }),
 
-  trackEvent: send(function (category, action, label, value, campaignUrl, newSession) {
+  trackEvent: send(function (category, action, label, value, newSession) {
     return {
       hitType: 'event',
       eventCategory: category,
       eventAction: action,
       eventLabel: label,
-      eventValue: value,
-      campaignUrl: campaignUrl
+      eventValue: value
     };
   }),
 
