@@ -102,18 +102,30 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         } else if (ADD_TRANSACTION.equals(action)) {
             int length = args.length();
             if (length > 0) {
-                this.addTransaction(args.getString(0), length > 1 ? args.getString(1) : "",
-                        length > 2 ? args.getDouble(2) : 0, length > 3 ? args.getDouble(3) : 0,
-                        length > 4 ? args.getDouble(4) : 0, length > 5 ? args.getString(5) : null, callbackContext);
+                this.addTransaction(
+                  args.getString(0),
+                  length > 1 ? args.getString(1) : "",
+                  length > 2 ? args.getDouble(2) : 0,
+                  length > 3 ? args.getDouble(3) : 0,
+                  length > 4 ? args.getDouble(4) : 0,
+                  length > 5 ? args.getString(5) : null,
+                  callbackContext
+                );
             }
             return true;
         } else if (ADD_TRANSACTION_ITEM.equals(action)) {
             int length = args.length();
             if (length > 0) {
-                this.addTransactionItem(args.getString(0), length > 1 ? args.getString(1) : "",
-                        length > 2 ? args.getString(2) : "", length > 3 ? args.getString(3) : "",
-                        length > 4 ? args.getDouble(4) : 0, length > 5 ? args.getLong(5) : 0,
-                        length > 6 ? args.getString(6) : null, callbackContext);
+                this.addTransactionItem(
+                  args.getString(0),
+                  length > 1 ? args.getString(1) : "",
+                  length > 2 ? args.getString(2) : "",
+                  length > 3 ? args.getString(3) : "",
+                  length > 4 ? args.getDouble(4) : 0,
+                  length > 5 ? args.getLong(5) : 0,
+                  length > 6 ? args.getString(6) : null,
+                  callbackContext
+                );
             }
             return true;
         } else if (SET_ALLOW_IDFA_COLLECTION.equals(action)) {
@@ -216,7 +228,12 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
     }
 
-    private void trackView(String screenname, String campaignUrl, boolean newSession, CallbackContext callbackContext) {
+    private void trackView(
+      String screenname,
+      String campaignUrl,
+      boolean newSession,
+      CallbackContext callbackContext
+    ) {
         if (!trackerStarted) {
             callbackContext.error("Tracker not started");
             return;
@@ -244,8 +261,15 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
     }
 
-    private void trackEvent(String category, String action, String label, long value, String campaignUrl, boolean newSession,
-            CallbackContext callbackContext) {
+    private void trackEvent(
+      String category,
+      String action,
+      String label,
+      long value,
+      String campaignUrl,
+      boolean newSession,
+      CallbackContext callbackContext
+    ) {
         if (!trackerStarted) {
             callbackContext.error("Tracker not started");
             return;
@@ -333,8 +357,15 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
     }
 
-    private void addTransaction(String id, String affiliation, double revenue, double tax, double shipping,
-            String currencyCode, CallbackContext callbackContext) {
+    private void addTransaction(
+      String id,
+      String affiliation,
+      double revenue,
+      double tax,
+      double shipping,
+      String currencyCode,
+      CallbackContext callbackContext
+    ) {
         if (!trackerStarted) {
             callbackContext.error("Tracker not started");
             return;
@@ -352,8 +383,16 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         }
     }
 
-    private void addTransactionItem(String id, String name, String sku, String category, double price, long quantity,
-            String currencyCode, CallbackContext callbackContext) {
+    private void addTransactionItem(
+      String id,
+      String name,
+      String sku,
+      String category,
+      double price,
+      long quantity,
+      String currencyCode,
+      CallbackContext callbackContext
+    ) {
         if (!trackerStarted) {
             callbackContext.error("Tracker not started");
             return;

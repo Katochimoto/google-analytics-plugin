@@ -9,7 +9,7 @@ UniversalAnalyticsPlugin.prototype.startTrackerWithId = function(id, dispatchPer
     error = success;
     success = dispatchPeriod;
     dispatchPeriod = 30;
-  }  
+  }
   cordova.exec(success, error, 'UniversalAnalytics', 'startTrackerWithId', [id, dispatchPeriod]);
 };
 
@@ -51,7 +51,7 @@ UniversalAnalyticsPlugin.prototype.debugMode = function(success, error) {
 };
 
 UniversalAnalyticsPlugin.prototype.trackMetric = function(key, value, success, error) {
-  // as key was formerly documented to be of type string, 
+  // as key was formerly documented to be of type string,
   // we need to at least accept string formatted numbers and pass the converted number
   var numberKey = key;
   if (typeof key === "string") {
@@ -78,7 +78,7 @@ UniversalAnalyticsPlugin.prototype.trackView = function(screen, campaignUrl, new
 
   if (typeof newSession === 'undefined' || newSession === null) {
     newSession = false;
-  }  
+  }
 
   cordova.exec(success, error, 'UniversalAnalytics', 'trackView', [screen, campaignUrl, newSession]);
 };
@@ -90,19 +90,40 @@ UniversalAnalyticsPlugin.prototype.addCustomDimension = function(key, value, suc
   cordova.exec(success, error, 'UniversalAnalytics', 'addCustomDimension', [key, value]);
 };
 
-UniversalAnalyticsPlugin.prototype.trackEvent = function(category, action, label, value, newSession, success, error) {
+UniversalAnalyticsPlugin.prototype.trackEvent = function(
+  category,
+  action,
+  label,
+  value,
+  campaignUrl,
+  newSession,
+  success,
+  error
+) {
   if (typeof label === 'undefined' || label === null) {
     label = '';
   }
+
   if (typeof value === 'undefined' || value === null) {
     value = 0;
   }
 
+  if (typeof campaignUrl === 'undefined' || campaignUrl === null) {
+    campaignUrl = '';
+  }
+
   if (typeof newSession === 'undefined' || newSession === null) {
     newSession = false;
-  }    
+  }
 
-  cordova.exec(success, error, 'UniversalAnalytics', 'trackEvent', [category, action, label, value, newSession]);
+  cordova.exec(success, error, 'UniversalAnalytics', 'trackEvent', [
+    category,
+    action,
+    label,
+    value,
+    campaignUrl,
+    newSession
+  ]);
 };
 
 /**
