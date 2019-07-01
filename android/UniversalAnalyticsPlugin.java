@@ -70,7 +70,8 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
                 length > 1 ? args.getString(1) : "",
                 length > 2 ? args.getString(2) : "",
                 length > 3 ? args.getLong(3) : 0,
-                length > 4 ? args.getBoolean(4) : false,
+                length > 4 ? args.getString(4) : "",
+                length > 5 ? args.getBoolean(5) : false,
                 callbackContext
               );
             }
@@ -265,6 +266,7 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
       String action,
       String label,
       long value,
+      String campaignUrl,
       boolean newSession,
       CallbackContext callbackContext
     ) {
@@ -276,6 +278,10 @@ public class UniversalAnalyticsPlugin extends CordovaPlugin {
         if (null != category && category.length() > 0) {
             HitBuilders.EventBuilder hitBuilder = new HitBuilders.EventBuilder();
             addCustomDimensionsAndMetricsToHitBuilder(hitBuilder);
+
+            if (!campaignUrl.equals("")) {
+                hitBuilder.setCampaignParamsFromUrl(campaignUrl);
+            }
 
             if (!newSession) {
                 tracker.send(

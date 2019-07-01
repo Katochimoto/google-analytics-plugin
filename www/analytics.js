@@ -95,6 +95,7 @@ UniversalAnalyticsPlugin.prototype.trackEvent = function(
   action,
   label,
   value,
+  campaignUrl,
   newSession,
   success,
   error
@@ -107,6 +108,10 @@ UniversalAnalyticsPlugin.prototype.trackEvent = function(
     value = 0;
   }
 
+  if (typeof campaignUrl === 'undefined' || campaignUrl === null) {
+    campaignUrl = '';
+  }
+
   if (typeof newSession === 'undefined' || newSession === null) {
     newSession = false;
   }
@@ -116,6 +121,7 @@ UniversalAnalyticsPlugin.prototype.trackEvent = function(
     action,
     label,
     value,
+    campaignUrl,
     newSession
   ]);
 };
