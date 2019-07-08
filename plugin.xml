@@ -53,7 +53,7 @@
 
   <platform name="android">
     <framework src="com.google.android.gms:play-services-analytics:$GMS_VERSION" />
-    <preference name="GMS_VERSION" default="17.0.0"/>
+    <preference name="GMS_VERSION" default="16.0.8"/>
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="UniversalAnalytics">
